@@ -1,0 +1,232 @@
+:root {
+    /* header 높이 */
+    --header-height: 3rem;
+    /* footer 높이 */
+    --footer-height: 2rem;
+
+    /* 첫번째 .subject_title (최소) 높이 */
+    --first-article-min-height: 8rem;
+    /* 나머지 .subject_title 높이 */
+    --rest-article-height: 4rem;
+    --rest-article-min-height: 2.5rem;
+
+    /* .subject_title 개수 */
+    --article-count: 4;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+    padding: 0;
+
+    background: black;
+
+    overflow-x: hidden;
+}
+
+/*************
+ * Container *
+ *************/
+
+.container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+    overflow-y: visible;
+}
+
+/**********
+ * Header *
+ **********/
+
+header {
+    width: 100%;
+    height: var(--header-height);
+    margin: 0;
+    padding: 0;
+
+    background: black;
+
+    text-align: center;
+    align-items: center;
+
+    box-sizing: border-box;
+}
+
+/* #title 제목 */
+header > #title {
+    text-decoration: none;
+    color: rgb(243, 240, 76);
+    font-weight: bolder;
+    font-size: calc(var(--header-height)*0.6);
+}
+
+/**************************************
+ * Contents(.subject_title Container) *
+ **************************************/
+
+.contents {
+    /* Grid */
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: minmax( var(--first-article-min-height), 1fr ) 
+                        repeat( calc( var(--article-count) - 1 ), 
+                                minmax( var(--rest-article-min-height), var(--rest-article-height) )
+                              );
+    grid-template-areas: 
+        "first" 
+        "second" 
+        "third" 
+        "forth";
+    gap: 0 0;
+    place-items: stretch stretch;
+    place-content: stretch stretch;
+    /********/
+
+    width: 100%;
+    height: calc( 100% - var(--footer-height) - var(--header-height) );
+    min-height: calc( var(--first-article-min-height) + var(--rest-article-min-height) * 3 );
+
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+/********************************
+ * Subject Title(a and article) *
+ ********************************/
+
+.subject_title {
+    transition: transform 150ms ease-in;
+    overflow: visible;
+
+    border: 3px solid black;
+}
+
+.subject_title:first-child {
+    grid-area: first;
+    background: rgb(8, 206, 146) url(./nowon.png);
+    background-position: center;
+    background-size: 40vmax;
+    background-repeat: no-repeat;
+}
+.subject_title:nth-child(2) {
+    grid-area: second;
+    background: rgb(68, 136, 182);
+}
+.subject_title:nth-child(3) {
+    grid-area: third;
+    background: rgb(107, 59, 221);
+}
+.subject_title:nth-child(4) {
+    grid-area: forth;
+    background: rgb(210, 30, 141);
+}
+
+.subject_title:not(:first-child) {
+    display: flex;
+    align-items: center;
+}
+.subject_title:not(:last-child) {
+    border-bottom: 0;
+}
+
+.subject_title:not(:first-child):hover,
+.subject_title:first-child h2:hover {
+    transform: translateX(1rem);
+}
+
+.subject_title h1 {
+    display: inline-block;
+    margin: 0;
+    margin-left: 0.5rem;
+    font-size: 1rem;
+
+    color: white;
+    background-color: black;
+}
+/* 첫 번쨰 .subject_title의 h1 */
+.subject_title:first-child h1 {
+    font-size: 3rem;
+    margin-top: 0.5rem;
+}
+.subject_title h2 {
+    display: inline-block;
+    margin: 0;
+    margin-top: 0.2rem;
+    margin-left: 0.5rem;
+
+    font-weight: normal;
+    font-size: 1.5rem;
+
+    color: rgb(172, 172, 172);
+    background-color: rgb(41, 41, 41);
+
+    transition: transform 150ms ease-in;
+} 
+.subject_title:not(:first-child) h1::before {
+    content: "→";
+}
+
+/**********
+ * Footer *
+ **********/
+
+footer {
+    width: 100%;
+    height: var(--footer-height);
+    text-align: center;
+
+    background-color: black;
+    color: white;
+
+    box-sizing: border-box;
+}
+
+/* copyright */
+footer > p {
+    margin: 0;
+    font-size: calc( var(--footer-height) * 0.5 );
+}
+
+/***************
+ * Media Query *
+ ***************/
+
+@media (min-width: 750px) {
+    .contents {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat( calc( var(--article-count) - 1 ), 1fr );
+        grid-template-areas: 
+            "first second" 
+            "first third" 
+            "first forth";
+        
+        min-height: calc( var(--rest-article-min-height) * 3 );
+    }
+
+    
+    .subject_title {
+        border: 3px solid black;
+    }
+    .subject_title:first-child {
+        border-right: 0;
+    }
+    .subject_title:not(:first-child) {
+        border-bottom: 0;
+    }
+}
+
+@media (min-width: 850px) {
+    .container {
+        padding: 0 calc((100vw - 850px)/2);
+    }
+}
